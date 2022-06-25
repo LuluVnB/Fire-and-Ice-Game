@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 import tkinter as tk #L Gian like fr :skull:
 from tkinter import *
+import random
 
 #Step 1: Create canvas
 #Step 2: Draw Characters
@@ -16,7 +17,6 @@ canvas.grid()
 
 player = canvas.create_rectangle(100, 100, 120, 120)
 
-create_pipe = canvas.create_rectangle(900, 0, 1000, 1000, fill = "yellow", tag = "pipe")
 
 
 #Functions
@@ -31,11 +31,20 @@ def shoot_after(): #moves the bullet
     canvas.update()
     screen.after(100, shoot_after)
 
+def create_pipe():
+    pipe_color = random.randint(0,1)
+    if pipe_color == 0:
+        canvas.create_rectangle(900, 0, 1000, 1000, fill = "red", tag = "colored_pipe")
+    else:
+        canvas.create_rectangle(900, 0, 1000, 1000, fill = "blue", tag = "colored_pipe")
+    screen.after(100, move_pipe)
+
 def move_pipe():
     canvas.move("pipe", -20, 0)
     canvas.update
+    screen.after(100, move_pipe)
     
- 
+
 
 
 
