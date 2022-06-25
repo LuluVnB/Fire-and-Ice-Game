@@ -8,13 +8,30 @@ from tkinter import *
 #Step 3: Import Characters
 #Step 4: Make Characters do stuff
 
+#Variables
+screen = tk.Tk()
+title = screen.title("Fire and Ice")
+canvas = Canvas(screen, width = 1000, height = 1000)
+canvas.grid()
+
+player = canvas.create_rectangle(100, 100, 120, 120)
+
 
 
 #Functions
 
-def shoot(event):
+def shoot(event): #shoots shit by making the bullet
     if event.keysym == 'space':
-        bullet = canvas.coords
+        canvas.create_circle(width = 10, fill="black", tag = "bullet")
+        screen.after(100, shoot_after)
+
+def shoot_after(): #moves the bullet
+    canvas.move("shot", 0, 20)
+    canvas.update()
+    screen.after(100, shoot_after)
+
+
+    
  
 
 
@@ -24,11 +41,5 @@ def shoot(event):
 
 
 
-screen = tk.Tk()
-title = screen.title("Fire and Ice")
-canvas = Canvas(screen, width = 1000, height = 1000)
-canvas.grid()
 
-x = 100
-y = 100
-player = canvas.create_rectangle(x, y)
+
