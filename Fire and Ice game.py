@@ -106,13 +106,13 @@ def canvcreate():
 def animationFire(count):
     global anim
     global info
-    info = Image.open("imgs/fire_obstacle.gif")
+    info = Image.open("C:/Users/parag/Documents/Fire and Ice/imgs/fire_obstacle.gif")
     frames = info.n_frames
 
-    imgs = [PhotoImage(file="imgs/fire_obstacle.gif", format=f'gif -index {i}') for i in range(frames)]
-    myImage = PhotoImage(file="imgs/fire_obstacle.gif")
-    myImage = myImage.subsample(5,5)
-    character = canvas.create_image(200, 500, image=myImage)
+    imgs = [PhotoImage(file="C:/Users/parag/Documents/Fire and Ice/imgs/fire_obstacle.gif", format=f'gif -index {i}') for i in range(frames)]
+    myImage2 = PhotoImage(file="C:/Users/parag/Documents/Fire and Ice/imgs/fire_obstacle.gif")
+    myImage2 = myImage2.subsample(5,5)
+    character = canvas.create_image(200, 500, image=myImage2)
 
 
     im2 = imgs[count]
@@ -120,7 +120,7 @@ def animationFire(count):
     if count == frames: 
         count = 0
     
-    canvas.itemconfig(character, image=im2)
+    #canvas.itemconfig(pipe, image=im2)
 
     anim = screen.after(100, lambda: animation(count))
 
@@ -222,32 +222,41 @@ def create_pipe1(): #creates new pipe and randomly decides its color
     global pipe1
     pipe_color = random.randint(0,1)  
     if pipe_color == 0:
-        pipe1 = canvas.create_rectangle(1400, 0, 1500, 1000, fill = "red", tag = "colored_pipe1")
+        #pipe1 = canvas.create_rectangle(1400, 0, 1500, 1000, fill = "red", tag = "colored_pipe1")
+        fire = PhotoImage(file="C:/Users/parag/Documents/Fire and Ice/imgs/fire_obstacle.gif", format="gif -index 2")
+        fire = fire.subsample(2,2)
+        canvas.create_image(900, 1000, image = fire)
     else:
-        pipe1 = canvas.create_rectangle(1400, 0, 1500, 1000, fill = "blue", tag = "colored_pipe1")
+        #pipe1 = canvas.create_rectangle(1400, 0, 1500, 1000, fill = "blue", tag = "colored_pipe1")
+        ice = PhotoImage(file="C:/Users/parag/Documents/Fire and Ice/imgs/ice_obstacle.png")
+        ice = ice.subsample(2,2)
+        canvas.create_image(player_pos, image = ice)
     screen.after(30, move_pipe1) #recurses function to move pipe
     screen.after(2500, create_pipe2) #calls to create new pipe
     global color1
     color1 = pipe_color
     screen.after(1, check)
     
+ice = PhotoImage(file="C:/Users/parag/Documents/Fire and Ice/imgs/ice_obstacle.png")
+ice = ice.subsample(2,2)
+Ice = canvas.create_image(900, 1000, image = ice)
+
 def move_pipe1(): #moves pipe
-    canvas.move("colored_pipe1", -5, 0)
+    canvas.move(Ice, -5, 0)
     canvas.update()
     screen.after(30, move_pipe1)
 
 def create_pipe2(): #duplicate
     global pipe2
     pipe_color = random.randint(0,1)  
-    if pipe_color == 0:
-        pipe2 = canvas.create_image(1400, 0, 1500, 1000, image=myImage , tag = "colored_pipe2")
-    else:
-        pipe2 = canvas.create_rectangle(1400, 0, 1500, 1000, image="/imgs/ice_obstacle.png", tag = "colored_pipe2")
+    if pipe_color == 0:                                 #add image=myImage, before fill
+        pipe2 = canvas.create_rectangle(1400, 0, 1500, 1000, fill = "red", tag = "colored_pipe2")
+    else:#
+        pipe2 = canvas.create_rectangle(1400, 0, 1500, 1000, fill = "blue", tag = "colored_pipe2")
     screen.after(30, move_pipe2)
     screen.after(2500, create_pipe3)
     global color2
     color2 = pipe_color
-
 
 def move_pipe2():
     canvas.move("colored_pipe2", -5, 0)
@@ -402,11 +411,11 @@ def move_pipe10():
 def check():
     a = canvas.bbox(character)
     b = canvas.bbox(pipe1)
-    if b[0] in range(a[0],a[2]) or b[2] in range(a[0],a[2]) and b[1] in range(a[1],a[3]) or b[3] in range(a[1],a[3]) and michaelColor != color1:
-        screen.after(20, death)
-    b = canvas.bbox(p2)
-    # if b[0] in range(a[0],a[2]) or b[2] in range(a[0],a[2]) and b[1] in range(a[1],a[3]) or b[3] in range(a[1],a[3]) and michaelColor != color2:
-    #     screen.after(20, death)
+    # if b[0] in range(a[0],a[2]) or b[2] in range(a[0],a[2]) and b[1] in range(a[1],a[3]) or b[3] in range(a[1],a[3]) and michaelColor != color1:
+    #     screen.after(20, )
+    # # c = canvas.bbox(pipedeath2)
+    # # if c[0] in range(a[0],a[2]) or c[2] in range(a[0],a[2]) and c[1] in range(a[1],a[3]) or c[3] in range(a[1],a[3]) and michaelColor != color2:
+    # #     screen.after(20, death)
     screen.after(20, check)
 
 pygame.init()
@@ -415,7 +424,6 @@ pygame.init()
 create_pipe1()
 
 #User_Input
-
 canvas.focus_set()
 
 #Create Character
