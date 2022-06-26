@@ -178,14 +178,15 @@ def check():
             screen.after(1, death)
         else:
            pass
-    c = canvas.bbox(character)
-    d = canvas.bbox(pipe2)
-    if (c[0] in range(d[0],d[2]) or c[2] in range(d[0],d[2]) and c[1] in range(d[1],d[3]) or c[3] in range(d[1],d[3])):
-        if michaelColor != color2:
-            canvas.delete("all")
-            screen.after(1, death)
-        else:
-            pass
+    # c = canvas.bbox(character)
+    # global d
+    # d = canvas.bbox(pipe2)
+    # if (c[0] in range(d[0],d[2]) or c[2] in range(d[0],d[2]) and c[1] in range(d[1],d[3]) or c[3] in range(d[1],d[3])):
+    #     if michaelColor != color2:
+    #         canvas.delete("all")
+    #         screen.after(1, death)
+    #     else:
+    #         pass
     # if (d[0] in range(a[0],a[2]) or d[2] in range(a[0],a[2]) and d[1] in range(a[1],a[3]) or d[3] in range(a[1],a[3])) and (michaelColor != color1):
     #     canvas.delete("all")
     #     screen.after(1, death)
