@@ -123,6 +123,7 @@ def next_gif():
     global file         
     global count
     global info
+    global michaelColor
     if key == "n":          #normal michael
         michaelColor = 2
         file_Used = 0
@@ -163,30 +164,61 @@ def eventCont():
     screen.after_cancel(anim)
     animation(count)
 
+def death():
+    canvas.delete("all")
+    screen.after(1, death)
+
 #collsion check
 def check():
-    if (canvas.canvasx(colored_pipe1) == 200) and (michaelColor != color1):
-        canvas.delete("all")
-    if (canvas.canvasx(pipe2) == 200) and (michaelColor != color2):
-        canvas.delete("all")
-    if (canvas.canvasx(pipe3) == 200) and (michaelColor != color3):
-        canvas.delete("all")
-    if (canvas.canvasx(pipe4) == 200) and (michaelColor != color4):
-        canvas.delete("all")
-    if (canvas.canvasx(pipe5) == 200) and (michaelColor != color5):
-        canvas.delete("all")
-    if (canvas.canvasx(pipe6) == 200) and (michaelColor != color6):
-        canvas.delete("all")
-    if (canvas.canvasx(pipe7) == 200) and (michaelColor != color7):
-        canvas.delete("all")
-    if (canvas.canvasx(pipe8) == 200) and (michaelColor != color8):
-        canvas.delete("all")
-    if (canvas.canvasx(pipe9) == 200) and (michaelColor != color9):
-        canvas.delete("all")
-    if (canvas.canvasx(pipe10) == 200) and (michaelColor != color10):
-        canvas.delete("all")
+    a = canvas.bbox(character)
+    b = canvas.bbox(pipe1)
+    if b[0] in range(a[0],a[2]) or b[2] in range(a[0],a[2]) and b[1] in range(a[1],a[3]) or b[3] in range(a[1],a[3]):
+        if michaelColor != color1:
+            canvas.delete("all")
+            screen.after(1, death)
+        else:
+           pass
+    c = canvas.bbox(character)
+    d = canvas.bbox(pipe2)
+    if (c[0] in range(d[0],d[2]) or c[2] in range(d[0],d[2]) and c[1] in range(d[1],d[3]) or c[3] in range(d[1],d[3])):
+        if michaelColor != color2:
+            canvas.delete("all")
+            screen.after(1, death)
+        else:
+            pass
+    # if (d[0] in range(a[0],a[2]) or d[2] in range(a[0],a[2]) and d[1] in range(a[1],a[3]) or d[3] in range(a[1],a[3])) and (michaelColor != color1):
+    #     canvas.delete("all")
+    #     screen.after(1, death)
+    # e = canvas.bbox(pipe4)
+    # f = canvas.bbox(pipe5)
+    # g = canvas.bbox(pipe6)
+    # h = canvas.bbox(pipe7)
+    # i = canvas.bbox(pipe8)
+    # j = canvas.bbox(pipe9)
+    # k = canvas.bbox(pipe10)
+    # if (e[0] in range(a[0],a[2]) or e[2] in range(a[0],a[2]) and e[1] in range(a[1],a[3]) or e[3] in range(a[1],a[3])) and (michaelColor != color1):
+    #     canvas.delete("all")
+    #     screen.after(1, death)
+    # if (f[0] in range(a[0],a[2]) or f[2] in range(a[0],a[2]) and f[1] in range(a[1],a[3]) or f[3] in range(a[1],a[3])) and (michaelColor != color1):
+    #     canvas.delete("all")
+    #     screen.after(1, death)
+    # if (g[0] in range(a[0],a[2]) or g[2] in range(a[0],a[2]) and g[1] in range(a[1],a[3]) or g[3] in range(a[1],a[3])) and (michaelColor != color1):
+    #     canvas.delete("all")
+    #     screen.after(1, death)
+    # if (h[0] in range(a[0],a[2]) or h[2] in range(a[0],a[2]) and h[1] in range(a[1],a[3]) or h[3] in range(a[1],a[3])) and (michaelColor != color1):
+    #     canvas.delete("all")
+    #     screen.after(1, death)
+    # if (i[0] in range(a[0],a[2]) or i[2] in range(a[0],a[2]) and i[1] in range(a[1],a[3]) or i[3] in range(a[1],a[3])) and (michaelColor != color1):
+    #     canvas.delete("all")
+    #     screen.after(1, death)
+    # if (j[0] in range(a[0],a[2]) or j[2] in range(a[0],a[2]) and j[1] in range(a[1],a[3]) or j[3] in range(a[1],a[3])) and (michaelColor != color1):
+    #     canvas.delete("all")
+    #     screen.after(1, death)
+    # if (k[0] in range(a[0],a[2]) or k[2] in range(a[0],a[2]) and k[1] in range(a[1],a[3]) or k[3] in range(a[1],a[3])) and (michaelColor != color1):
+    #     canvas.delete("all")
+    #     screen.after(1, death)
     screen.after(1, check)
-
+    
 #Creating and moving pipes
 
 def create_pipe1(): #creates new pipe and randomly decides its color
@@ -201,7 +233,7 @@ def create_pipe1(): #creates new pipe and randomly decides its color
     global color1
     color1 = pipe_color
     screen.after(1, check)
-
+    
 def move_pipe1(): #moves pipe
     canvas.move("colored_pipe1", -5, 0)
     canvas.update()
