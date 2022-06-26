@@ -6,19 +6,30 @@ import random
 from random import randint
 import time
 import sys
-from PIL import ImageTk
+from PIL import ImageTk, Image
 
-#Step 1: Create canvas
-#Step 2: Draw Characters
-#Step 3: Import Characters
-#Step 4: Make Characters do stuff
+
+
+
+#To Do List
+# - Import assets
+# - Add music
+# - Polish game
 
 
 #Variables
+file = "C:/Users/parag/Documents/Fire and Ice/characters/Michael_walking.gif"
+# fileUsed = 0
+
+# info = Image.open(file)
+# frames = info.n_frames
+# imgs = [PhotoImage(file=file, format=f'gif -index {i}') for i in range(frames)]
+# myImage = PhotoImage(file=file)
+
 
 direction = 'RIGHT'
 change_to = direction
-player_pos = [200,450]
+player_pos = [200,450]  #where michael starts
 
 
 screen = tk.Tk()
@@ -35,10 +46,10 @@ canvas.create_image(10, 10, image=background, anchor=NW)
 
 
 #This is michael
-player = PhotoImage(file = "C:/Users/parag/Documents/Fire and Ice/characters/Michael.png")
-frame2 = PhotoImage(file="C:/Users/parag/Documents/Fire and Ice/characters/Michael_walking.gif", format="gif -index 2")
-player = player.subsample(2,2)
-canvas.create_image(player_pos, image = frame2)
+# michael = PhotoImage(file = "C:/Users/parag/Documents/Fire and Ice/characters/Michael.png")
+michaelWalking = PhotoImage(file="C:/Users/parag/Documents/Fire and Ice/characters/Michael_walking.gif", format="gif -index 2")
+michaelWalking = michaelWalking.subsample(2,2)
+canvas.create_image(player_pos, image = michaelWalking)
 
 
 
@@ -62,13 +73,11 @@ def create_pipe1(): #makes pipe and randomly decides its color
     else:
         canvas.create_rectangle(900, 0, 1000, 1000, fill = "blue", tag = "colored_pipe1")
     screen.after(20, move_pipe1)
-    spawnrate = 1000
-    spawnrate = randint(600,1000)
-    screen.after(spawnrate, create_pipe2)
+    screen.after(randint(600,1000), create_pipe2)
 
 def move_pipe1():
-    speed = randint(-30, -10)
-    canvas.move("colored_pipe1", speed, 0)
+    speed = (-20)
+    canvas.move("colored_pipe1", -20, 0)
     canvas.update()
     screen.after(20, move_pipe1)
 
@@ -79,15 +88,33 @@ def create_pipe2(): #makes pipe and randomly decides its color
     else:
         canvas.create_rectangle(900, 0, 1000, 1000, fill = "blue", tag = "colored_pipe2")
     screen.after(20, move_pipe2)
-    spawnrate = 1000
-    spawnrate = randint(600,1000)
-    screen.after(spawnrate, create_pipe1)
+    screen.after(randint(600,1000), create_pipe1)
 
 def move_pipe2():
-    speed = randint(-30, -10)
+    speed = (-20)
     canvas.move("colored_pipe2", speed, 0)
     canvas.update()
     screen.after(20, move_pipe2)
+
+
+def animation(count):
+    frames = info.n_frames
+    im2 = imgs[count]
+    count += 1
+    if count == frames:
+        count = 0   
+
+
+
+   
+
+
+
+
+    canvas.itemconfig(develon, image=im2)
+    global anim
+
+    anim = root.after(100, lambda: animation(count))
     
    
     
