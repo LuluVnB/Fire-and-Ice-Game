@@ -31,7 +31,7 @@ from PIL import ImageTk, Image
 
 direction = 'RIGHT'
 change_to = direction
-player_pos = [200,450]  #where michael starts
+player_pos = [10,450]  #where michael starts
 
 
 screen = tk.Tk()
@@ -63,12 +63,12 @@ score = 0
 
 
 #FIRE OBSTACLE
-#fire = PhotoImage(file="C:/Users/parag/Documents/Fire and Ice/imgs/fire_obstacle.gif", format="gif -index 2")
+#fire = PhotoImage(file="C:/Users/parag/Documents/Fire and IceC:/Users/parag/Documents/Fire and Ice/imgs/fire_obstacle.gif", format="gif -index 2")
 #fire = fire.subsample(2,2)
 #canvas.create_image(player_pos, image = fire)
 
 #ICE OBSTACLE
-#ice = PhotoImage(file="C:/Users/parag/Documents/Fire and Ice/imgs/fire_obstacle.gif", format="gif -index 2")
+#ice = PhotoImage(file="C:/Users/parag/Documents/Fire and IceC:/Users/parag/Documents/Fire and Ice/imgs/fire_obstacle.gif", format="gif -index 2")
 #ice = ice.subsample(2,2)
 #canvas.create_image(player_pos, image = ice)
 
@@ -103,6 +103,28 @@ def canvcreate():
     myImage = myImage.subsample(5,5)
     character = canvas.create_image(200, 500, image=myImage)
 
+def animationFire(count):
+    global anim
+    global info
+    info = Image.open("imgs/fire_obstacle.gif")
+    frames = info.n_frames
+
+    imgs = [PhotoImage(file="imgs/fire_obstacle.gif", format=f'gif -index {i}') for i in range(frames)]
+    myImage = PhotoImage(file="imgs/fire_obstacle.gif")
+    myImage = myImage.subsample(5,5)
+    character = canvas.create_image(200, 500, image=myImage)
+
+
+    im2 = imgs[count]
+    count += 1
+    if count == frames: 
+        count = 0
+    
+    canvas.itemconfig(character, image=im2)
+
+    anim = screen.after(100, lambda: animation(count))
+
+
 def animation(count):
     global anim
     global info
@@ -116,6 +138,11 @@ def animation(count):
 
     anim = screen.after(100, lambda: animation(count))
 
+
+"""
+
+
+"""
 
 def next_gif():
     global imgs
@@ -142,7 +169,7 @@ def next_gif():
         file_Used = 2
         file = move_files[file_Used]
         
-        
+    
     info = Image.open(file)
     frames = info.n_frames
     imgs = [PhotoImage(file=file, format=f"gif -index {i}") for i in range(frames)]
@@ -167,58 +194,27 @@ def eventCont():
 def death():
     canvas.delete("all")
     screen.after(1, death)
+    game_over()
+    #screen2 = tk.TK()
+    #root.geometry(200x200)
+    #root.title("GAME OVER")
+    #root.backgroumd
+
+def game_over():
+    my_font = pygame.font.SysFont('times new roman', 90)
+    game_over_surface = my_font.render('YOU DIED', True, 'red')
+    game_over_rect = game_over_surface.get_rect()
+    game_over_rect.midtop = (1000/2, 1000/4)
+    Canvas.fill('black')
+    Canvas.blit(game_over_surface, game_over_rect)
+    #show_score(0, red, 'times', 20)
+    pygame.display.flip()
+    time.sleep(3)
+    pygame.quit()
+    sys.exit()
 
 #collsion check
-def check():
-    a = canvas.bbox(character)
-    b = canvas.bbox(pipe1)
-    if b[0] in range(a[0],a[2]) or b[2] in range(a[0],a[2]) and b[1] in range(a[1],a[3]) or b[3] in range(a[1],a[3]):
-        if michaelColor != color1:
-            canvas.delete("all")
-            screen.after(1, death)
-        else:
-           pass
-    # c = canvas.bbox(character)
-    # global d
-    # d = canvas.bbox(pipe2)
-    # if (c[0] in range(d[0],d[2]) or c[2] in range(d[0],d[2]) and c[1] in range(d[1],d[3]) or c[3] in range(d[1],d[3])):
-    #     if michaelColor != color2:
-    #         canvas.delete("all")
-    #         screen.after(1, death)
-    #     else:
-    #         pass
-    # if (d[0] in range(a[0],a[2]) or d[2] in range(a[0],a[2]) and d[1] in range(a[1],a[3]) or d[3] in range(a[1],a[3])) and (michaelColor != color1):
-    #     canvas.delete("all")
-    #     screen.after(1, death)
-    # e = canvas.bbox(pipe4)
-    # f = canvas.bbox(pipe5)
-    # g = canvas.bbox(pipe6)
-    # h = canvas.bbox(pipe7)
-    # i = canvas.bbox(pipe8)
-    # j = canvas.bbox(pipe9)
-    # k = canvas.bbox(pipe10)
-    # if (e[0] in range(a[0],a[2]) or e[2] in range(a[0],a[2]) and e[1] in range(a[1],a[3]) or e[3] in range(a[1],a[3])) and (michaelColor != color1):
-    #     canvas.delete("all")
-    #     screen.after(1, death)
-    # if (f[0] in range(a[0],a[2]) or f[2] in range(a[0],a[2]) and f[1] in range(a[1],a[3]) or f[3] in range(a[1],a[3])) and (michaelColor != color1):
-    #     canvas.delete("all")
-    #     screen.after(1, death)
-    # if (g[0] in range(a[0],a[2]) or g[2] in range(a[0],a[2]) and g[1] in range(a[1],a[3]) or g[3] in range(a[1],a[3])) and (michaelColor != color1):
-    #     canvas.delete("all")
-    #     screen.after(1, death)
-    # if (h[0] in range(a[0],a[2]) or h[2] in range(a[0],a[2]) and h[1] in range(a[1],a[3]) or h[3] in range(a[1],a[3])) and (michaelColor != color1):
-    #     canvas.delete("all")
-    #     screen.after(1, death)
-    # if (i[0] in range(a[0],a[2]) or i[2] in range(a[0],a[2]) and i[1] in range(a[1],a[3]) or i[3] in range(a[1],a[3])) and (michaelColor != color1):
-    #     canvas.delete("all")
-    #     screen.after(1, death)
-    # if (j[0] in range(a[0],a[2]) or j[2] in range(a[0],a[2]) and j[1] in range(a[1],a[3]) or j[3] in range(a[1],a[3])) and (michaelColor != color1):
-    #     canvas.delete("all")
-    #     screen.after(1, death)
-    # if (k[0] in range(a[0],a[2]) or k[2] in range(a[0],a[2]) and k[1] in range(a[1],a[3]) or k[3] in range(a[1],a[3])) and (michaelColor != color1):
-    #     canvas.delete("all")
-    #     screen.after(1, death)
-    screen.after(1, check)
+
     
 #Creating and moving pipes
 
@@ -244,13 +240,14 @@ def create_pipe2(): #duplicate
     global pipe2
     pipe_color = random.randint(0,1)  
     if pipe_color == 0:
-        pipe2 = canvas.create_rectangle(1400, 0, 1500, 1000, fill = "red", tag = "colored_pipe2")
+        pipe2 = canvas.create_image(1400, 0, 1500, 1000, image=myImage , tag = "colored_pipe2")
     else:
-        pipe2 = canvas.create_rectangle(1400, 0, 1500, 1000, fill = "blue", tag = "colored_pipe2")
+        pipe2 = canvas.create_rectangle(1400, 0, 1500, 1000, image="/imgs/ice_obstacle.png", tag = "colored_pipe2")
     screen.after(30, move_pipe2)
     screen.after(2500, create_pipe3)
     global color2
     color2 = pipe_color
+
 
 def move_pipe2():
     canvas.move("colored_pipe2", -5, 0)
@@ -268,6 +265,7 @@ def create_pipe3(): #duplicate
     screen.after(1900, create_pipe4)
     global color3
     color3 = pipe_color
+
 
 def move_pipe3():
     canvas.move("colored_pipe3", -5, 0)
@@ -401,7 +399,15 @@ def move_pipe10():
 #fire = 0
 #if xcoor obtacle=200 and obstaclecolor != michael color :
 
-
+def check():
+    a = canvas.bbox(character)
+    b = canvas.bbox(pipe1)
+    if b[0] in range(a[0],a[2]) or b[2] in range(a[0],a[2]) and b[1] in range(a[1],a[3]) or b[3] in range(a[1],a[3]) and michaelColor != color1:
+        screen.after(20, death)
+    b = canvas.bbox(p2)
+    # if b[0] in range(a[0],a[2]) or b[2] in range(a[0],a[2]) and b[1] in range(a[1],a[3]) or b[3] in range(a[1],a[3]) and michaelColor != color2:
+    #     screen.after(20, death)
+    screen.after(20, check)
 
 pygame.init()
 
