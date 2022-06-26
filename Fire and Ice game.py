@@ -3,8 +3,10 @@ from pygame.locals import *
 import tkinter as tk
 from tkinter import *
 import random
+from random import randint
 import time
 import sys
+from PIL import ImageTk
 
 #Step 1: Create canvas
 #Step 2: Draw Characters
@@ -13,9 +15,11 @@ import sys
 
 
 #Variables
+
 direction = 'RIGHT'
 change_to = direction
-player_pos = [250,150]
+player_pos = [200,450]
+
 
 screen = tk.Tk()
 title = screen.title("Fire and Ice")
@@ -23,11 +27,19 @@ canvas = Canvas(screen, width = 1000, height = 1000)
 canvas.grid()
 score = 0
 
+background = PhotoImage(file="C:/Users/parag/Documents/Fire and Ice/imgs/caveBackground.png")
+background = background.subsample(3,3)
+canvas.create_image(10, 10, image=background, anchor=NW)
+
+
+
 
 #This is michael
 player = PhotoImage(file = "C:/Users/parag/Documents/Fire and Ice/characters/Michael.png")
+frame2 = PhotoImage(file="C:/Users/parag/Documents/Fire and Ice/characters/Michael_walking.gif", format="gif -index 2")
 player = player.subsample(2,2)
-canvas.create_image(player_pos, image = player)
+canvas.create_image(player_pos, image = frame2)
+
 
 
 #Functions
@@ -43,22 +55,39 @@ def shoot_after(): #moves the bullet
 
 #global pipe_id
 
-def create_pipe(pipe_id): #makes pipe and randomly decides its color
-    for i in range(pipe_id):
-        pipe_color = random.randint(0,1)  
-        global pipe_num
-        pipe_num = str(pipe_id)
-        
-        if pipe_color == 0:
-            canvas.create_rectangle(900, 0, 1000, 1000, fill = "red", tag = pipe_num)
-        else:
-            canvas.create_rectangle(900, 0, 1000, 1000, fill = "blue", tag = pipe_num)
-        screen.after(100, move_pipe)
+def create_pipe1(): #makes pipe and randomly decides its color
+    pipe_color = random.randint(0,1)  
+    if pipe_color == 0:
+        canvas.create_rectangle(900, 0, 1000, 1000, fill = "red", tag = "colored_pipe1")
+    else:
+        canvas.create_rectangle(900, 0, 1000, 1000, fill = "blue", tag = "colored_pipe1")
+    screen.after(20, move_pipe1)
+    spawnrate = 1000
+    spawnrate = randint(600,1000)
+    screen.after(spawnrate, create_pipe2)
 
-def move_pipe():
-    canvas.move(pipe_num, -20, 0)
+def move_pipe1():
+    speed = randint(-30, -10)
+    canvas.move("colored_pipe1", speed, 0)
     canvas.update()
-    screen.after(100, move_pipe)
+    screen.after(20, move_pipe1)
+
+def create_pipe2(): #makes pipe and randomly decides its color
+    pipe_color = random.randint(0,1)  
+    if pipe_color == 0:
+        canvas.create_rectangle(900, 0, 1000, 1000, fill = "red", tag = "colored_pipe2")
+    else:
+        canvas.create_rectangle(900, 0, 1000, 1000, fill = "blue", tag = "colored_pipe2")
+    screen.after(20, move_pipe2)
+    spawnrate = 1000
+    spawnrate = randint(600,1000)
+    screen.after(spawnrate, create_pipe1)
+
+def move_pipe2():
+    speed = randint(-30, -10)
+    canvas.move("colored_pipe2", speed, 0)
+    canvas.update()
+    screen.after(20, move_pipe2)
     
    
     
@@ -67,42 +96,10 @@ def move_pipe():
 
 pygame.init()
 
-
-while True:
-    create_pipe(3)
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-        # Whenever a key is pressed down
-        elif event.type == pygame.KEYDOWN:
-            # W -> Up; S -> Down; A -> Left; D -> Right
-            if event.key == pygame.K_UP or event.key == ord('w'):
-                change_to = 'UP'
-            if event.key == pygame.K_DOWN or event.key == ord('s'):
-                change_to = 'DOWN'
-            if event.key == pygame.K_LEFT or event.key == ord('a'):
-                change_to = 'LEFT'
-            if event.key == pygame.K_RIGHT or event.key == ord('d'):
-                change_to = 'RIGHT'
-            # Esc -> Create event to quit the game
-            if event.key == pygame.K_ESCAPE:
-                pygame.event.post(pygame.event.Event(pygame.QUIT))
-
-                
-                
-    if direction == 'UP':
-        player_pos[1] -= 10
-    if direction == 'DOWN':
-        player_pos[1] += 10
-    if direction == 'LEFT':
-        player_pos[0] -= 10
-    if direction == 'RIGHT':
-        player_pos[0] += 10
+create_pipe1()
 
 
-
-    screen.mainloop()
+screen.mainloop()
 
 
 
